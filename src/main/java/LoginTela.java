@@ -98,13 +98,21 @@ public class LoginTela extends javax.swing.JFrame {
         //pegar a senha, na forma de um array de caracteres
         //depois, vou converter para String
         String senha = new String(senhaPasswordField.getPassword());
-        if (login.equalsIgnoreCase("admin") && senha.equals("admin")) {
-            JOptionPane.showMessageDialog(null, "Bem-vindo, admin", "parabens",
-            JOptionPane.INFORMATION_MESSAGE);
+        try {
+            Usuario usuario = new Usuario (login, senha);
+            DAO dao = new DAO();
+            if (dao.existeUsuario(usuario)) {
+                JOptionPane.showMessageDialog(null, "Bem-vindo, " + login, "Resultado",
+                JOptionPane.INFORMATION_MESSAGE);
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Usuario não cadastrado", 
+                "Ups", JOptionPane.WARNING_MESSAGE);
+            }
         }
-        else {
-            JOptionPane.showMessageDialog(null, "Usuario não cadastrado", 
-            "Ups", JOptionPane.WARNING_MESSAGE);
+        catch (Exception e) {
+            JOptionPane.showMessageDialog (null, "ups, tente mais tarde");
+            e.printStackTrace();
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
